@@ -33,11 +33,19 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("com.squareup.workflow1:workflow-ui-core-android:1.11.0-beta03")
+    implementation("com.squareup.workflow1:workflow-core-jvm:1.11.0-beta03")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.activity:activity-ktx:1.7.2")
+
+    implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
