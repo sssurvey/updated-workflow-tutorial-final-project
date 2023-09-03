@@ -14,7 +14,7 @@ data class WelcomeScreen(
      * [TextController] here instead of a [String] for username, the [TextController] allows us to
      * achieve the [updateText] and [setTextChangedListener] with less code.
      *
-     * OLD tutorial:
+     * OLD tutorial: (hash: a69a23c)
      * @link https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-1-complete/src/main/java/workflow/tutorial/WelcomeScreen.kt
      */
     val username: TextController,

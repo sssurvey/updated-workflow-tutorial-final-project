@@ -24,7 +24,7 @@ class WelcomeScreenRunner(
              * Since we are using [TextController], this is how we call it onto the [EditText], to achieve
              * [updateText] and [setTextChangedListener].
              *
-             * OLD tutorial:
+             * OLD tutorial: (hash: a69a23c)
              * @link https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-1-complete/src/main/java/workflow/tutorial/WelcomeLayoutRunner.kt
              */
             rendering.username.control(welcomePromptEditText)
@@ -36,7 +36,7 @@ class WelcomeScreenRunner(
      * This differs from the deprecated API, notice that instead by calling [LayoutRunner.bind] to
      * bind the view binding class with the runner, we now uses [ScreenViewFactory.Companion.fromViewBinding]
      *
-     * You can refer the old tutorial here:
+     * OLD tutorial: (hash: a69a23c)
      * @link https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-1-complete/src/main/java/workflow/tutorial/WelcomeLayoutRunner.kt
      */
     companion object :

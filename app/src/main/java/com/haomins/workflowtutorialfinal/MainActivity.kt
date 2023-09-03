@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 /**
                  * [start] being deprecated, we now uses [take], to start the workflow in [MainActivity]
                  *
-                 * OLD tutorial:
+                 * OLD tutorial: (hash: a69a23c)
                  * @link: https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-1-complete/src/main/java/workflow/tutorial/TutorialActivity.kt
                  */
                 take(
