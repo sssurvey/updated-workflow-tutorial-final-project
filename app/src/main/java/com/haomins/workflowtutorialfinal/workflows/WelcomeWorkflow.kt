@@ -10,23 +10,22 @@ import com.squareup.workflow1.action
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 
-object Props
 data class State(
     val username: TextController
 )
 
 object Output
 
-object WelcomeWorkflow : StatefulWorkflow<Props, State, Output, WelcomeScreen>() {
+object WelcomeWorkflow : StatefulWorkflow<Unit, State, Output, WelcomeScreen>() {
 
-    override fun initialState(props: Props, snapshot: Snapshot?): State {
+    override fun initialState(props: Unit, snapshot: Snapshot?): State {
         return State(
             username = TextController(EMPTY_USERNAME)
         )
     }
 
     override fun render(
-        renderProps: Props,
+        renderProps: Unit,
         renderState: State,
         context: RenderContext
     ): WelcomeScreen {
