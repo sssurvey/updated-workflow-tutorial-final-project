@@ -23,6 +23,9 @@ object WelcomeWorkflow : StatefulWorkflow<Unit, State, Output, WelcomeScreen>() 
             /**
              * With [TextController] we no longer need to maintain a [String] for the username anymore.
              * @see [WelcomeScreen] for details.
+             *
+             * OLD tutorial: (hash: a69a23c)
+             * @link https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-1-complete/src/main/java/workflow/tutorial/WelcomeWorkflow.kt
              */
             username = TextController(EMPTY_USERNAME)
         )
@@ -39,6 +42,9 @@ object WelcomeWorkflow : StatefulWorkflow<Unit, State, Output, WelcomeScreen>() 
              * With [TextController] we no longer need have a callback onUsernameChanged on for the
              * username EditText anymore.
              * @see [WelcomeScreen] for details.
+             *
+             * OLD tutorial: (hash: a69a23c)
+             * @link https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-1-complete/src/main/java/workflow/tutorial/WelcomeWorkflow.kt
              */
             onLoginClicked = {
                 Log.d(
