@@ -12,7 +12,8 @@ data class WelcomeScreen(
     /**
      * Here is also different from the tutorial that is currently online, notice that we are using
      * [TextController] here instead of a [String] for username, the [TextController] allows us to
-     * achieve the [updateText] and [setTextChangedListener] with less code.
+     * achieve the [updateText] and [setTextChangedListener] with less code. Which is a reason why
+     * we do not have the `onUsernameChanged` method in [WelcomeScreen] anymore.
      *
      * OLD tutorial: (hash: a69a23c)
      * @link https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-1-complete/src/main/java/workflow/tutorial/WelcomeScreen.kt

@@ -20,6 +20,10 @@ object WelcomeWorkflow : StatefulWorkflow<Unit, State, Output, WelcomeScreen>() 
 
     override fun initialState(props: Unit, snapshot: Snapshot?): State {
         return State(
+            /**
+             * With [TextController] we no longer need to maintain a [String] for the username anymore.
+             * @see [WelcomeScreen] for details.
+             */
             username = TextController(EMPTY_USERNAME)
         )
     }
@@ -31,6 +35,11 @@ object WelcomeWorkflow : StatefulWorkflow<Unit, State, Output, WelcomeScreen>() 
     ): WelcomeScreen {
         return WelcomeScreen(
             username = renderState.username,
+            /**
+             * With [TextController] we no longer need have a callback onUsernameChanged on for the
+             * username EditText anymore.
+             * @see [WelcomeScreen] for details.
+             */
             onLoginClicked = {
                 Log.d(
                     TAG,
