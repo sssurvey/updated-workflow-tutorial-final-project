@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Workflow Tutorial Final</string>
+    <string name="welcome_prompt">Welcome! Please enter your name:</string>
+    <string name="login_button_text">login</string>
 </resources>
