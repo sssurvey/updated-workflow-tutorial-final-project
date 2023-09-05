@@ -6,13 +6,17 @@ import com.squareup.workflow1.Snapshot
 import com.squareup.workflow1.StatefulWorkflow
 
 object TodoListWorkflow :
-    StatefulWorkflow<Unit, TodoListWorkflow.State, Nothing, TodoListScreen>() {
+    StatefulWorkflow<TodoListWorkflow.Props, TodoListWorkflow.State, Nothing, TodoListScreen>() {
+
+    data class Props(
+        val username: String
+    )
 
     data class State(
         val todos: List<TodoModel>
     )
 
-    override fun initialState(props: Unit, snapshot: Snapshot?): State {
+    override fun initialState(props: Props, snapshot: Snapshot?): State {
         return State(
             todos = listOf(
                 TodoModel(
@@ -25,12 +29,12 @@ object TodoListWorkflow :
     }
 
     override fun render(
-        renderProps: Unit,
+        renderProps: Props,
         renderState: State,
         context: RenderContext
     ): TodoListScreen {
         return TodoListScreen(
-            username = "",
+            username = renderProps.username,
             todoTitles = renderState.todos.map { it.title },
             onTodoSelected = {},
             onBack = {}
