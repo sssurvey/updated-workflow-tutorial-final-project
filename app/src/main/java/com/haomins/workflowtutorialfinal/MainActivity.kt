@@ -5,6 +5,7 @@ package com.haomins.workflowtutorialfinal
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.haomins.workflowtutorialfinal.layoutrunners.TodoListScreenRunner
 import com.haomins.workflowtutorialfinal.layoutrunners.WelcomeScreenRunner
 import com.squareup.workflow1.ui.ViewRegistry
 import com.squareup.workflow1.ui.WorkflowLayout
@@ -37,7 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private val viewRegistry = ViewRegistry(
-            WelcomeScreenRunner
+            WelcomeScreenRunner,
+            TodoListScreenRunner
         )
     }
 }

@@ -18,7 +18,7 @@
         tools:text="Username" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/todo_item_recycler_view"
+        android:id="@+id/todo_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
