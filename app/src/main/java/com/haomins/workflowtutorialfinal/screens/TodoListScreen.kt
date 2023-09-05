@@ -19,4 +19,4 @@ data class TodoListScreen(
     val todoTitles: List<String>,
     val onTodoSelected: (Int) -> Unit,
     val onBack: () -> Unit
-): Screen
+) : Screen

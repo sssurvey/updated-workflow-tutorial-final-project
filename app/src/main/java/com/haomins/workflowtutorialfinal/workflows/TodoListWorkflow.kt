@@ -4,9 +4,11 @@ import com.haomins.workflowtutorialfinal.model.TodoModel
 import com.haomins.workflowtutorialfinal.screens.TodoListScreen
 import com.squareup.workflow1.Snapshot
 import com.squareup.workflow1.StatefulWorkflow
+import com.squareup.workflow1.WorkflowAction
+import com.squareup.workflow1.action
 
 object TodoListWorkflow :
-    StatefulWorkflow<TodoListWorkflow.Props, TodoListWorkflow.State, Nothing, TodoListScreen>() {
+    StatefulWorkflow<TodoListWorkflow.Props, TodoListWorkflow.State, TodoListWorkflow.Output, TodoListScreen>() {
 
     data class Props(
         val username: String
@@ -15,6 +17,10 @@ object TodoListWorkflow :
     data class State(
         val todos: List<TodoModel>
     )
+
+    sealed class Output {
+        data object Back : Output()
+    }
 
     override fun initialState(props: Props, snapshot: Snapshot?): State {
         return State(
@@ -37,7 +43,7 @@ object TodoListWorkflow :
             username = renderProps.username,
             todoTitles = renderState.todos.map { it.title },
             onTodoSelected = {},
-            onBack = {}
+            onBack = { context.actionSink.send(onBack()) }
         )
     }
 
@@ -45,4 +51,9 @@ object TodoListWorkflow :
         return null
     }
 
+    private fun onBack(): WorkflowAction<Props, State, Output> {
+        return action {
+            setOutput(Output.Back)
+        }
+    }
 }
