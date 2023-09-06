@@ -9,6 +9,14 @@ import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 import com.squareup.workflow1.ui.container.BackStackScreen
 import com.squareup.workflow1.ui.container.toBackStackScreen
 
+/**
+ * Here I decided to use manual DI to compose the [RootWorkflow]. IMO it is clearer and easier to read.
+ * So this is different from the original tutorial, but this is simply a preference in this case. And
+ * because of the manual DI, this class cannot be a static class anymore.
+ *
+ * Another thing worth to point out is the renderings of [StatefulWorkflow] generic type is now a [BackStackScreen]
+ * of [Screen] instead of a [BackStackScreen] of [Any], since I extended all screen renderings with [Screen].
+ */
 @OptIn(WorkflowUiExperimentalApi::class)
 class RootWorkflow(
     private val welcomeWorkflow: WelcomeWorkflow = WelcomeWorkflow,
@@ -16,6 +24,8 @@ class RootWorkflow(
 ) : StatefulWorkflow<Unit, RootWorkflow.State, Nothing, BackStackScreen<Screen>>() {
 
     sealed class State {
+
+        // data object is added in later versions of kotlin to have better toString() etc support
         data object Welcome : State()
         data class Todo(val username: String) : State()
     }
