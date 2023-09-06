@@ -12,6 +12,9 @@ import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
  *
  * Note: Notice that I am have extend the [Screen] interface, this is different compared to the original
  * tutorial, I need to extend the [Screen] here so that I can later use [TodoListScreen] with [ScreenViewRunner].
+ *
+ * OLD tutorial: (hash: a69a23c)
+ * @link: https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-2-complete/src/main/java/workflow/tutorial/TodoListScreen.kt
  */
 @OptIn(WorkflowUiExperimentalApi::class)
 data class TodoListScreen(
