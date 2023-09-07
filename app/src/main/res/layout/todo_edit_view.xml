@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/default_padding">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/todo_title_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/welcome_prompt_text_size"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="HELLO" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/todo_content_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="top|start"
+        app:layout_constraintBottom_toTopOf="@id/confirm_button"
+        app:layout_constraintTop_toBottomOf="@id/todo_title_edit_text"
+        tools:text="This is just a todo content view, where we can do content, dand dalfjd dasatesd" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/confirm_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:text="@string/confirm_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/discard_button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/discard_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:text="@string/discard_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/confirm_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
