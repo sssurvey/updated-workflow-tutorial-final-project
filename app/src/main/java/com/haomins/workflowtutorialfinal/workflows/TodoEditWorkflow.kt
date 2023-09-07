@@ -31,7 +31,7 @@ object TodoEditWorkflow :
     }
 
     override fun onPropsChanged(old: Props, new: Props, state: State): State {
-        return if (old.initialTodo != new.initialTodo) state.copy(new.initialTodo) else state
+        return if (old.initialTodo != new.initialTodo) state.copy(todoModel = new.initialTodo) else state
     }
 
     override fun render(
