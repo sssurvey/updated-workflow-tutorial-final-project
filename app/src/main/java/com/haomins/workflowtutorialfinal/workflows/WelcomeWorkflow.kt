@@ -10,13 +10,17 @@ import com.squareup.workflow1.action
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 
-data class State(
-    val username: TextController
-)
 
-object Output
+object WelcomeWorkflow :
+    StatefulWorkflow<Unit, WelcomeWorkflow.State, WelcomeWorkflow.Output, WelcomeScreen>() {
 
-object WelcomeWorkflow : StatefulWorkflow<Unit, State, Output, WelcomeScreen>() {
+    data class State(
+        val username: TextController
+    )
+
+    data class Output(
+        val username: String
+    )
 
     override fun initialState(props: Unit, snapshot: Snapshot?): State {
         return State(
@@ -51,9 +55,9 @@ object WelcomeWorkflow : StatefulWorkflow<Unit, State, Output, WelcomeScreen>() 
                     TAG,
                     "::onLoginClicked, the current username is ${renderState.username.textValue}"
                 )
-                action {
-                    //NOOP
-                }
+                context.actionSink.send(
+                    action { setOutput(Output(username = renderState.username.textValue)) }
+                )
             }
         )
     }
