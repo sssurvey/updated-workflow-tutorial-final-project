@@ -8,8 +8,6 @@ import com.squareup.workflow1.Snapshot
 import com.squareup.workflow1.StatefulWorkflow
 import com.squareup.workflow1.WorkflowAction
 import com.squareup.workflow1.action
-import com.squareup.workflow1.asWorker
-import com.squareup.workflow1.runningWorker
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 
@@ -32,6 +30,10 @@ object TodoEditWorkflow :
         )
     }
 
+    override fun onPropsChanged(old: Props, new: Props, state: State): State {
+        return if (old.initialTodo != new.initialTodo) state.copy(new.initialTodo) else state
+    }
+
     override fun render(
         renderProps: Props,
         renderState: State,
@@ -41,18 +43,16 @@ object TodoEditWorkflow :
         val todoTitle = TextController(renderState.todoModel.title)
         val todoContent = TextController(renderState.todoModel.note)
 
-        context.runningWorker(todoTitle.onTextChanged.asWorker()) {
-            onTodoChanged(TodoModel(title = it, note = renderState.todoModel.note))
-        }
-
-        context.runningWorker(todoContent.onTextChanged.asWorker()) {
-            onTodoChanged(TodoModel(title = renderState.todoModel.title, note = it))
-        }
-
         return TodoEditScreen(
             todoTitle = todoTitle,
             todoContent = todoContent,
-            onSave = { context.actionSink.send(onSave()) },
+            onSave = {
+                context.actionSink.send(
+                    onSave(
+                        TodoModel(title = todoTitle.textValue, note = todoContent.textValue)
+                    )
+                )
+            },
             onDiscard = { context.actionSink.send(onDiscard()) }
         )
     }
@@ -61,16 +61,10 @@ object TodoEditWorkflow :
         return null
     }
 
-    private fun onTodoChanged(todoModel: TodoModel): WorkflowAction<Props, State, Output> {
-        return action {
-            state = State(todoModel)
-        }
-    }
-
-    private fun onSave(): WorkflowAction<Props, State, Output> {
+    private fun onSave(todoModel: TodoModel): WorkflowAction<Props, State, Output> {
         return action {
             setOutput(
-                Output.Save(todoModel = state.todoModel)
+                Output.Save(todoModel = todoModel)
             )
         }
     }
