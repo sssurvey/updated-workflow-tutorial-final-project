@@ -5,6 +5,7 @@ package com.haomins.workflowtutorialfinal
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.haomins.workflowtutorialfinal.layoutrunners.TodoEditScreenRunner
 import com.haomins.workflowtutorialfinal.layoutrunners.TodoListScreenRunner
 import com.haomins.workflowtutorialfinal.layoutrunners.WelcomeScreenRunner
 import com.haomins.workflowtutorialfinal.workflows.RootWorkflow
@@ -51,7 +52,8 @@ class MainActivity : AppCompatActivity() {
          */
         private val viewRegistry = ViewRegistry(
             WelcomeScreenRunner,
-            TodoListScreenRunner
+            TodoListScreenRunner,
+            TodoEditScreenRunner
         )
     }
 }
