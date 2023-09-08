@@ -4,6 +4,7 @@ import com.haomins.workflowtutorialfinal.databinding.TodoEditViewBinding
 import com.haomins.workflowtutorialfinal.screens.TodoEditScreen
 import com.squareup.workflow1.ui.ScreenViewFactory
 import com.squareup.workflow1.ui.ScreenViewRunner
+import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.ViewEnvironment
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 import com.squareup.workflow1.ui.control
@@ -14,6 +15,12 @@ class TodoEditScreenRunner(
     private val todoEditViewBinding: TodoEditViewBinding
 ) : ScreenViewRunner<TodoEditScreen> {
 
+    /**
+     * This is the same as the old tutorial aside from we are now using [TextController].
+     *
+     * OLD tutorial: (hash: a69a23c)
+     * @link: https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-3-complete/src/main/java/workflow/tutorial/TodoEditLayoutRunner.kt
+     */
     override fun showRendering(rendering: TodoEditScreen, environment: ViewEnvironment) {
         with(todoEditViewBinding) {
             rendering.todoTitle.control(todoTitleEditText)

@@ -12,7 +12,7 @@ import com.squareup.workflow1.ui.Screen
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 
 /**
- * This is almost the same to the original tutorial, no difference here aside from naming.
+ * This is almost the same to the original tutorial, no difference here aside from naming, and DI.
  */
 class TodoListWorkflow(
     private val todoEditWorkflow: TodoEditWorkflow = TodoEditWorkflow
@@ -68,7 +68,10 @@ class TodoListWorkflow(
         frames.add(todoListScreen)
 
         when (renderState.step) {
-            is State.Step.List -> {}
+            is State.Step.List -> {
+                //no-op since we always add the [TodoListScreen]
+            }
+
             is State.Step.Edit -> {
                 val todoEditScreen = context.renderChild(
                     child = todoEditWorkflow,

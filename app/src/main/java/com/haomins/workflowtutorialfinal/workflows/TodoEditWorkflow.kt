@@ -40,6 +40,14 @@ object TodoEditWorkflow :
         context: RenderContext
     ): TodoEditScreen {
 
+        /**
+         * This is different from the old tutorial, to keep it similar as the original tutorial.
+         * [TodoModel] was included in the [State], so in this case, we will have to create [TextController]
+         * here and then pass it to the [TodoEditScreen].
+         *
+         * OLD tutorial: (hash: a69a23c)
+         * @link: https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-3-complete/src/main/java/workflow/tutorial/TodoEditWorkflow.kt
+         */
         val todoTitle = TextController(renderState.todoModel.title)
         val todoContent = TextController(renderState.todoModel.note)
 
