@@ -1,7 +1,7 @@
 package com.haomins.workflowtutorialfinal.layoutrunners
 
 import android.widget.EditText
-import com.haomins.workflowtutorialfinal.databinding.LayoutWelcomeScreenBinding
+import com.haomins.workflowtutorialfinal.databinding.WelcomeViewBinding
 import com.haomins.workflowtutorialfinal.screens.WelcomeScreen
 import com.squareup.workflow1.ui.LayoutRunner
 import com.squareup.workflow1.ui.ScreenViewFactory
@@ -15,11 +15,11 @@ import com.squareup.workflow1.ui.updateText
 
 @OptIn(WorkflowUiExperimentalApi::class)
 class WelcomeScreenRunner(
-    private val layoutWelcomeScreenBinding: LayoutWelcomeScreenBinding
+    private val welcomeViewBinding: WelcomeViewBinding
 ) : ScreenViewRunner<WelcomeScreen> {
 
     override fun showRendering(rendering: WelcomeScreen, environment: ViewEnvironment) {
-        with(layoutWelcomeScreenBinding) {
+        with(welcomeViewBinding) {
             /**
              * Since we are using [TextController], this is how we call it onto the [EditText], to achieve
              * [updateText] and [setTextChangedListener].
@@ -41,7 +41,7 @@ class WelcomeScreenRunner(
      */
     companion object :
         ScreenViewFactory<WelcomeScreen> by ScreenViewFactory.Companion.fromViewBinding(
-            LayoutWelcomeScreenBinding::inflate,
+            WelcomeViewBinding::inflate,
             ::WelcomeScreenRunner
         )
 

@@ -20,7 +20,7 @@ import com.squareup.workflow1.ui.container.toBackStackScreen
 @OptIn(WorkflowUiExperimentalApi::class)
 class RootWorkflow(
     private val welcomeWorkflow: WelcomeWorkflow = WelcomeWorkflow,
-    private val todoListWorkflow: TodoListWorkflow = TodoListWorkflow
+    private val todoListWorkflow: TodoListWorkflow = TodoListWorkflow()
 ) : StatefulWorkflow<Unit, RootWorkflow.State, Nothing, BackStackScreen<Screen>>() {
 
     sealed class State {
@@ -64,7 +64,7 @@ class RootWorkflow(
                         }
                     }
                 )
-                frames.add(todoListScreen)
+                frames.addAll(todoListScreen)
             }
         }
 
