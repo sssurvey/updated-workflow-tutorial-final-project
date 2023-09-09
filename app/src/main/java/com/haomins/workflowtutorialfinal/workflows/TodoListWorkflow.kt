@@ -1,132 +1,48 @@
-@file:OptIn(WorkflowUiExperimentalApi::class)
-
 package com.haomins.workflowtutorialfinal.workflows
 
 import com.haomins.workflowtutorialfinal.model.TodoModel
 import com.haomins.workflowtutorialfinal.screens.TodoListScreen
-import com.squareup.workflow1.Snapshot
-import com.squareup.workflow1.StatefulWorkflow
+import com.squareup.workflow1.StatelessWorkflow
 import com.squareup.workflow1.WorkflowAction
 import com.squareup.workflow1.action
-import com.squareup.workflow1.ui.Screen
-import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 
 /**
- * This is almost the same to the original tutorial, no difference here aside from naming, and DI.
+ * Nothing special, this is almost the same as the original [TodoListWorkflow] from the original tutorial.
  */
-class TodoListWorkflow(
-    private val todoEditWorkflow: TodoEditWorkflow = TodoEditWorkflow
-) :
-    StatefulWorkflow<TodoListWorkflow.Props, TodoListWorkflow.State, TodoListWorkflow.Output, List<Screen>>() {
+object TodoListWorkflow :
+    StatelessWorkflow<TodoListWorkflow.Props, TodoListWorkflow.Output, TodoListScreen>() {
 
     data class Props(
-        val username: String
+        val username: String,
+        val todos: List<TodoModel>
     )
-
-    data class State(
-        val todos: List<TodoModel>,
-        val step: Step
-    ) {
-        sealed class Step {
-            data object List : Step()
-            data class Edit(val index: Int) : Step()
-        }
-    }
 
     sealed class Output {
         data object Back : Output()
-    }
-
-    override fun initialState(props: Props, snapshot: Snapshot?): State {
-        return State(
-            todos = listOf(
-                TodoModel(
-                    title = "Take the cat for a walk",
-                    note = "Cats really need their outside sunshine time. Don't forget to walk " +
-                            "Charlie. Hamilton is less excited about the prospect."
-                )
-            ),
-            step = State.Step.List
-        )
+        data class SelectTodo(val index: Int) : Output()
     }
 
     override fun render(
         renderProps: Props,
-        renderState: State,
         context: RenderContext
-    ): List<Screen> {
-
-        val frames = mutableListOf<Screen>()
-
-        val todoListScreen = TodoListScreen(
+    ): TodoListScreen {
+        return TodoListScreen(
             username = renderProps.username,
-            todoTitles = renderState.todos.map { it.title },
+            todoTitles = renderProps.todos.map { it.title },
             onTodoSelected = { context.actionSink.send(onSelect(selectedTodoItemIndex = it)) },
             onBack = { context.actionSink.send(onBack()) }
         )
-
-        frames.add(todoListScreen)
-
-        when (renderState.step) {
-            is State.Step.List -> {
-                //no-op since we always add the [TodoListScreen]
-            }
-
-            is State.Step.Edit -> {
-                val todoEditScreen = context.renderChild(
-                    child = todoEditWorkflow,
-                    props = TodoEditWorkflow.Props(
-                        initialTodo = renderState.todos[renderState.step.index]
-                    ),
-                    handler = {
-                        when (it) {
-                            is TodoEditWorkflow.Output.Save ->
-                                onSaveEdit(renderState.step.index, it.todoModel)
-
-                            is TodoEditWorkflow.Output.Discard ->
-                                onDiscardEdit()
-                        }
-                    }
-                )
-                frames.add(todoEditScreen)
-            }
-        }
-
-        return frames
     }
 
-    override fun snapshotState(state: State): Snapshot? {
-        return null
-    }
-
-    private fun onBack(): WorkflowAction<Props, State, Output> {
+    private fun onBack(): WorkflowAction<Props, Nothing, Output> {
         return action {
             setOutput(Output.Back)
         }
     }
 
-    private fun onSelect(selectedTodoItemIndex: Int): WorkflowAction<Props, State, Output> {
+    private fun onSelect(selectedTodoItemIndex: Int): WorkflowAction<Props, Nothing, Output> {
         return action {
-            state = state.copy(
-                step = State.Step.Edit(index = selectedTodoItemIndex)
-            )
-        }
-    }
-
-    private fun onSaveEdit(
-        index: Int,
-        todoModel: TodoModel
-    ): WorkflowAction<Props, State, Output> {
-        return action {
-            val todoItems = state.todos.toMutableList()
-            todoItems[index] = todoModel
-            state = state.copy(step = State.Step.List, todos = todoItems)
-        }
-    }
-
-    private fun onDiscardEdit(): WorkflowAction<Props, State, Output> {
-        return action {
-            state = state.copy(step = State.Step.List)
+            setOutput(Output.SelectTodo(index = selectedTodoItemIndex))
         }
     }
 }
