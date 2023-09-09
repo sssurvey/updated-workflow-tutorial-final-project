@@ -10,6 +10,9 @@ import com.squareup.workflow1.action
 import com.squareup.workflow1.ui.Screen
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 
+/**
+ * Pretty much the same as original [TodoWorkflow]. Aside from DI, and [List] of [Screen] as rendering.
+ */
 class TodoWorkflow(
     private val todoListWorkflow: TodoListWorkflow = TodoListWorkflow,
     private val todoEditWorkflow: TodoEditWorkflow = TodoEditWorkflow

@@ -6,6 +6,9 @@ import com.squareup.workflow1.StatelessWorkflow
 import com.squareup.workflow1.WorkflowAction
 import com.squareup.workflow1.action
 
+/**
+ * Nothing special, this is almost the same as the original [TodoListWorkflow] from the original tutorial.
+ */
 object TodoListWorkflow :
     StatelessWorkflow<TodoListWorkflow.Props, TodoListWorkflow.Output, TodoListScreen>() {
 
