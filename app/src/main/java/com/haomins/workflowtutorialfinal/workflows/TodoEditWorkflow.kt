@@ -10,12 +10,18 @@ import com.squareup.workflow1.WorkflowAction
 import com.squareup.workflow1.action
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
+import org.jetbrains.annotations.TestOnly
 
 object TodoEditWorkflow :
     StatefulWorkflow<TodoEditWorkflow.Props, TodoEditWorkflow.State, TodoEditWorkflow.Output, TodoEditScreen>() {
 
     data class Props(val initialTodo: TodoModel)
-    data class State(val todoModel: TodoModel)
+    data class State(
+        val todoModel: TodoModel,
+        val titleTextController: TextController,
+        val noteTextController: TextController
+    )
+
     sealed class Output {
         data class Save(
             val todoModel: TodoModel
@@ -26,12 +32,19 @@ object TodoEditWorkflow :
 
     override fun initialState(props: Props, snapshot: Snapshot?): State {
         return State(
-            props.initialTodo
+            props.initialTodo,
+            titleTextController = TextController(initialValue = props.initialTodo.title),
+            noteTextController = TextController(initialValue = props.initialTodo.note),
         )
     }
 
     override fun onPropsChanged(old: Props, new: Props, state: State): State {
-        return if (old.initialTodo != new.initialTodo) state.copy(todoModel = new.initialTodo) else state
+        return if (old.initialTodo != new.initialTodo)
+            state.copy(
+                todoModel = new.initialTodo,
+                titleTextController = TextController(initialValue = new.initialTodo.title),
+                noteTextController = TextController(initialValue = new.initialTodo.note),
+            ) else state
     }
 
     override fun render(
@@ -39,25 +52,16 @@ object TodoEditWorkflow :
         renderState: State,
         context: RenderContext
     ): TodoEditScreen {
-
-        /**
-         * This is different from the old tutorial, to keep it similar as the original tutorial.
-         * [TodoModel] was included in the [State], so in this case, we will have to create [TextController]
-         * here and then pass it to the [TodoEditScreen].
-         *
-         * OLD tutorial: (hash: a69a23c)
-         * @link: https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-3-complete/src/main/java/workflow/tutorial/TodoEditWorkflow.kt
-         */
-        val todoTitle = TextController(renderState.todoModel.title)
-        val todoContent = TextController(renderState.todoModel.note)
-
         return TodoEditScreen(
-            todoTitle = todoTitle,
-            todoContent = todoContent,
+            todoTitle = renderState.titleTextController,
+            todoContent = renderState.noteTextController,
             onSave = {
                 context.actionSink.send(
                     onSave(
-                        TodoModel(title = todoTitle.textValue, note = todoContent.textValue)
+                        TodoModel(
+                            title = renderState.titleTextController.textValue,
+                            note = renderState.noteTextController.textValue
+                        )
                     )
                 )
             },
@@ -81,6 +85,16 @@ object TodoEditWorkflow :
         return action {
             setOutput(Output.Discard)
         }
+    }
+
+    @TestOnly
+    internal fun testOnSave(todoModel: TodoModel): WorkflowAction<Props, State, Output> {
+        return onSave(todoModel)
+    }
+
+    @TestOnly
+    internal fun testOnDiscard(): WorkflowAction<Props, State, Output> {
+        return onDiscard()
     }
 
 }
