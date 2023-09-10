@@ -68,7 +68,8 @@ object WelcomeWorkflow :
 
     internal fun onLogin(): WorkflowAction<Unit, State, Output> {
         return action {
-            setOutput(Output(username = state.username.textValue))
+            if(state.username.textValue.isNotEmpty())
+                setOutput(Output(username = state.username.textValue))
         }
     }
 
