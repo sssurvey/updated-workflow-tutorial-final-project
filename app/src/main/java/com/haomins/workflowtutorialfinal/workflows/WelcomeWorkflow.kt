@@ -11,7 +11,6 @@ import com.squareup.workflow1.action
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 
-
 object WelcomeWorkflow :
     StatefulWorkflow<Unit, WelcomeWorkflow.State, WelcomeWorkflow.Output, WelcomeScreen>() {
 
