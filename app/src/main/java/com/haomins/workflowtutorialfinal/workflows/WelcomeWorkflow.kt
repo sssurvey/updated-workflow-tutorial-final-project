@@ -6,6 +6,7 @@ import android.util.Log
 import com.haomins.workflowtutorialfinal.screens.WelcomeScreen
 import com.squareup.workflow1.Snapshot
 import com.squareup.workflow1.StatefulWorkflow
+import com.squareup.workflow1.WorkflowAction
 import com.squareup.workflow1.action
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
@@ -56,7 +57,7 @@ object WelcomeWorkflow :
                     "::onLoginClicked, the current username is ${renderState.username.textValue}"
                 )
                 context.actionSink.send(
-                    action { setOutput(Output(username = renderState.username.textValue)) }
+                    action { onLogin() }
                 )
             }
         )
@@ -64,6 +65,12 @@ object WelcomeWorkflow :
 
     override fun snapshotState(state: State): Snapshot? {
         return null
+    }
+
+    internal fun onLogin(): WorkflowAction<Unit, State, Output> {
+        return action {
+            setOutput(Output(username = state.username.textValue))
+        }
     }
 
     private const val EMPTY_USERNAME = ""
