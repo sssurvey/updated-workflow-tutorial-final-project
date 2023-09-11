@@ -18,6 +18,12 @@ object TodoEditWorkflow :
     data class Props(val initialTodo: TodoModel)
     data class State(
         val todoModel: TodoModel,
+        /**
+         * Based on some of the code I see in the workflow-kotlin lib, I think it is best to keep the
+         * [TextController]s in the [State] that belongs to the workflow. Once we received the [Props]
+         * we can initialized the [TextController] in [State]. As [TextController] can be see as a
+         * [State] also.
+         */
         val titleTextController: TextController,
         val noteTextController: TextController
     )
