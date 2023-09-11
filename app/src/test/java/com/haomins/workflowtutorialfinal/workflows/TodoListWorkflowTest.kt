@@ -20,9 +20,6 @@ class TodoListWorkflowTest {
         TodoListWorkflow.testRender(
             props = props
         ).render {
-            assertEquals("test", it.username)
-            assertEquals(1, it.todoTitles.size)
-            assertEquals("test title", it.todoTitles.first())
             it.onBack.invoke()
         }.verifyActionResult { _, output ->
             assertEquals(TodoListWorkflow.Output.Back, output?.value)
@@ -37,6 +34,17 @@ class TodoListWorkflowTest {
             it.onTodoSelected.invoke(0)
         }.verifyActionResult { _, output ->
             assertEquals(TodoListWorkflow.Output.SelectTodo(0), output?.value)
+        }
+    }
+
+    @Test
+    fun `render initial`() {
+        TodoListWorkflow.testRender(
+            props = props
+        ).render {
+            assertEquals("test", it.username)
+            assertEquals(1, it.todoTitles.size)
+            assertEquals("test title", it.todoTitles.first())
         }
     }
 
