@@ -2,6 +2,7 @@ package com.haomins.workflowtutorialfinal.workflows
 
 import com.squareup.workflow1.ActionApplied
 import com.squareup.workflow1.applyTo
+import com.squareup.workflow1.testing.testRender
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 import org.junit.Assert.*
@@ -64,4 +65,32 @@ class WelcomeWorkflowTest {
         assertNull(output.output)
         assertEquals("", state.username.textValue)
     }
+
+    @OptIn(WorkflowUiExperimentalApi::class)
+    @Test
+    fun `rendering initial`() {
+        WelcomeWorkflow.testRender(
+            props = Unit
+        ).render {
+            assertEquals("", it.username.textValue)
+            it.onLoginClicked.invoke()
+        }.verifyActionResult { _, output ->
+            assertNull(output)
+        }
+    }
+
+
+    @OptIn(WorkflowUiExperimentalApi::class)
+    @Test
+    fun `render login`() {
+        WelcomeWorkflow.testRender(
+            props = Unit,
+            initialState = WelcomeWorkflow.State(TextController("test"))
+        ).render {
+            it.onLoginClicked.invoke()
+        }.verifyActionResult { _, output ->
+            assertEquals("test", output?.value?.username)
+        }
+    }
+
 }

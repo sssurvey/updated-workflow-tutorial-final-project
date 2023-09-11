@@ -2,7 +2,6 @@
 
 package com.haomins.workflowtutorialfinal.workflows
 
-import android.util.Log
 import com.haomins.workflowtutorialfinal.screens.WelcomeScreen
 import com.squareup.workflow1.Snapshot
 import com.squareup.workflow1.StatefulWorkflow
@@ -51,12 +50,8 @@ object WelcomeWorkflow :
              * @link https://github.com/square/workflow-kotlin/blob/main/samples/tutorial/tutorial-1-complete/src/main/java/workflow/tutorial/WelcomeWorkflow.kt
              */
             onLoginClicked = {
-                Log.d(
-                    TAG,
-                    "::onLoginClicked, the current username is ${renderState.username.textValue}"
-                )
                 context.actionSink.send(
-                    action { onLogin() }
+                    onLogin()
                 )
             }
         )
@@ -68,11 +63,10 @@ object WelcomeWorkflow :
 
     internal fun onLogin(): WorkflowAction<Unit, State, Output> {
         return action {
-            if(state.username.textValue.isNotEmpty())
+            if (state.username.textValue.isNotEmpty())
                 setOutput(Output(username = state.username.textValue))
         }
     }
 
     private const val EMPTY_USERNAME = ""
-    private const val TAG = "WelcomeWorkflow"
 }
