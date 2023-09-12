@@ -1,9 +1,11 @@
 package com.haomins.workflowtutorialfinal.workflows
 
+import com.haomins.workflowtutorialfinal.screens.TodoEditScreen
 import com.haomins.workflowtutorialfinal.screens.TodoListScreen
 import com.haomins.workflowtutorialfinal.screens.WelcomeScreen
 import com.squareup.workflow1.WorkflowOutput
 import com.squareup.workflow1.testing.expectWorkflow
+import com.squareup.workflow1.testing.launchForTestingFromStartWith
 import com.squareup.workflow1.testing.testRender
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
@@ -110,5 +112,53 @@ class RootWorkflowTest {
             }
     }
 
+    @OptIn(WorkflowUiExperimentalApi::class)
+    @Test
+    fun `app flow`() {
+        RootWorkflow().launchForTestingFromStartWith {
+
+            // typed "test" as username, and clicked login
+            awaitNextRendering().let {
+                assertEquals(1, it.frames.size)
+                val welcomeScreen = it.frames[0] as WelcomeScreen
+                welcomeScreen.username.textValue = "test"
+                welcomeScreen.onLoginClicked()
+            }
+
+            // check if todoListScreen added, and click first todoModel
+            awaitNextRendering().let {
+                assertEquals(2, it.frames.size)
+                assertTrue(it.frames[0] is WelcomeScreen)
+                assertTrue(it.frames[1] is TodoListScreen)
+                val todoListScreen = it.frames[1] as TodoListScreen
+
+                assertEquals(1, todoListScreen.todoTitles.size)
+
+                todoListScreen.onTodoSelected.invoke(0)
+            }
+
+            // verify if todoEditScreen showed, and change "title" -> "new title", then save
+            awaitNextRendering().let {
+                assertEquals(3, it.frames.size)
+                assertTrue(it.frames[0] is WelcomeScreen)
+                assertTrue(it.frames[1] is TodoListScreen)
+                assertTrue(it.frames[2] is TodoEditScreen)
+                val todoEditScreen = it.frames[2] as TodoEditScreen
+                todoEditScreen.todoTitle.textValue = "new title"
+                todoEditScreen.onSave.invoke()
+            }
+
+            // returned to todoListScreen, check if todoList size is right and "new title" saved
+            awaitNextRendering().let {
+                assertEquals(2, it.frames.size)
+                assertTrue(it.frames[0] is WelcomeScreen)
+                assertTrue(it.frames[1] is TodoListScreen)
+                val todoListScreen = it.frames[1] as TodoListScreen
+
+                assertEquals(1, todoListScreen.todoTitles.size)
+                assertEquals("new title", todoListScreen.todoTitles[0])
+            }
+        }
+    }
 
 }
