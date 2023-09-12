@@ -2,6 +2,7 @@ package com.haomins.workflowtutorialfinal.workflows
 
 import com.haomins.workflowtutorialfinal.model.TodoModel
 import com.squareup.workflow1.applyTo
+import com.squareup.workflow1.testing.testRender
 import com.squareup.workflow1.ui.TextController
 import com.squareup.workflow1.ui.WorkflowUiExperimentalApi
 import org.junit.Assert.assertEquals
@@ -71,5 +72,77 @@ class TodoEditWorkflowTest {
 
         assertEquals("test", updatedState.todoModel.title)
         assertEquals("test note", updatedState.todoModel.note)
+    }
+
+    @Test
+    fun `on props changed with diff new props`() {
+        val props = TodoEditWorkflow
+            .Props(initialTodo = TodoModel("init", "init note"))
+        val newProps = TodoEditWorkflow
+            .Props(initialTodo = TodoModel("new init", "new init note"))
+        val state = TodoEditWorkflow.initialState(props, null)
+        val newState = TodoEditWorkflow.onPropsChanged(props, newProps, state)
+        assertEquals(newProps.initialTodo, newState.todoModel)
+    }
+
+    @Test
+    fun `on props changed with same props`() {
+        val props = TodoEditWorkflow
+            .Props(initialTodo = TodoModel("init", "init note"))
+        val newProps = TodoEditWorkflow
+            .Props(initialTodo = TodoModel("init", "init note"))
+        val state = TodoEditWorkflow.initialState(props, null)
+        val newState = TodoEditWorkflow.onPropsChanged(props, newProps, state)
+        assertEquals(state, newState)
+    }
+
+    @Test
+    fun `render initial`() {
+        val props = TodoEditWorkflow
+            .Props(initialTodo = TodoModel("init", "init note"))
+
+        TodoEditWorkflow.testRender(
+            props = props
+        ).render {
+            assertEquals("init", it.todoTitle.textValue)
+            assertEquals("init note", it.todoContent.textValue)
+        }
+    }
+
+    @Test
+    fun `render save`() {
+        val props = TodoEditWorkflow
+            .Props(initialTodo = TodoModel("init", "init note"))
+        val state = TodoEditWorkflow.initialState(props, null)
+
+        TodoEditWorkflow.testRender(
+            props = props,
+            initialState = state
+        ).render {
+            it.onSave.invoke()
+        }.verifyActionResult { _, output ->
+            assertNotNull(output)
+            assertEquals(
+                props.initialTodo,
+                (output?.value as? TodoEditWorkflow.Output.Save)?.todoModel
+            )
+        }
+    }
+
+    @Test
+    fun `render discard`() {
+        val props = TodoEditWorkflow
+            .Props(initialTodo = TodoModel("init", "init note"))
+        val state = TodoEditWorkflow.initialState(props, null)
+
+        TodoEditWorkflow.testRender(
+            props = props,
+            initialState = state
+        ).render {
+            it.onDiscard.invoke()
+        }.verifyActionResult { _, output ->
+            assertNotNull(output)
+            assertTrue(output?.value is TodoEditWorkflow.Output.Discard)
+        }
     }
 }
