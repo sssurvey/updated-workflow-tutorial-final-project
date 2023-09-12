@@ -55,7 +55,7 @@ class RootWorkflow(
             }
 
             is State.Todo -> {
-                val todoListScreen = context.renderChild(
+                val todoScreens = context.renderChild(
                     child = todoWorkflow,
                     props = TodoWorkflow.Props(username = renderState.username),
                     handler = {
@@ -64,7 +64,7 @@ class RootWorkflow(
                         }
                     }
                 )
-                frames.addAll(todoListScreen)
+                frames.addAll(todoScreens)
             }
         }
 

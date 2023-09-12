@@ -51,4 +51,64 @@ class RootWorkflowTest {
             }
     }
 
+    @OptIn(WorkflowUiExperimentalApi::class)
+    @Test
+    fun `render todo list`() {
+        RootWorkflow()
+            .testRender(initialState = RootWorkflow.State.Todo("test"), props = Unit)
+            // you can render multiple workflows (BackStackScreens) by calling expectWorkflow multiple
+            // times:
+            // WelcomeWorkflow
+            .expectWorkflow(
+                workflowType = WelcomeWorkflow::class,
+                rendering = WelcomeScreen(
+                    TextController("test"),
+                    onLoginClicked = {}
+                )
+            )
+            // TodoWorkflow (backStack) with only TodoListWorkflow
+            .expectWorkflow(
+                workflowType = TodoWorkflow::class,
+                rendering = listOf(
+                    TodoListScreen("test", emptyList(), {}, {})
+                )
+            )
+            .render {
+                assertTrue(it.frames.size == 2)
+                assertEquals("test", (it.frames.last() as TodoListScreen).username)
+            }.verifyActionResult { state, _ ->
+                assertEquals(RootWorkflow.State.Todo(username = "test"), state)
+            }
+    }
+
+    @OptIn(WorkflowUiExperimentalApi::class)
+    @Test
+    fun `render todo list then user clicked back`() {
+        RootWorkflow()
+            .testRender(initialState = RootWorkflow.State.Todo("test"), props = Unit)
+            .expectWorkflow(
+                workflowType = WelcomeWorkflow::class,
+                rendering = WelcomeScreen(
+                    TextController("test"),
+                    onLoginClicked = {}
+                )
+            )
+            .expectWorkflow(
+                workflowType = TodoWorkflow::class,
+                rendering = listOf(
+                    TodoListScreen("test", emptyList(), {}, {})
+                ),
+                output = WorkflowOutput(TodoWorkflow.Output.Back)
+            )
+            .render {
+                assertTrue(it.frames.size == 2)
+                assertTrue(it.frames.last() is TodoListScreen)
+            }.verifyActionResult { state, _ ->
+                assertEquals(
+                    RootWorkflow.State.Welcome, state
+                )
+            }
+    }
+
+
 }
