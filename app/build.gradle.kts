@@ -40,9 +40,9 @@ android {
 
 dependencies {
 
-    implementation("com.squareup.workflow1:workflow-ui-core-android:1.11.0-beta03")
-    implementation("com.squareup.workflow1:workflow-core-jvm:1.11.0-beta03")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("com.squareup.workflow1:workflow-ui-core-android:1.12.0-beta01")
+    implementation("com.squareup.workflow1:workflow-core-jvm:1.12.0-beta01")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.activity:activity-ktx:1.7.2")
 
     implementation("androidx.core:core-ktx:1.10.1")
@@ -50,6 +50,7 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("com.squareup.workflow1:workflow-testing-jvm:1.12.0-beta01")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
